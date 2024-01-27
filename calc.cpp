@@ -128,7 +128,6 @@ int main(){
 
         
         double newNumber;
-        int tempNumber2;
         int iterations;
         for (int i; i < numberOfOperations; i++){
             if (BIDMASOrder[i] == '*'){
