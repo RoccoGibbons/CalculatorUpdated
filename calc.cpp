@@ -97,12 +97,95 @@ int main(){
             }
         }
         
+        char BIDMASOrder[numberOfOperations];
+        int counter = 0;
 
-        //Managed to do 2 number operations, doing 2< operations returns 2 numbers instead of using previous number
-        // to operate
+        //To put it in bidmas order, ik this is horrible and not good layout at all but it works for the moment - to make nicer later
+        for (int i; i < numberOfOperations; i++){
+            if (symbols[i] == '*'){
+                BIDMASOrder[counter] = '*';
+                counter++;
+            }
+        }
+        for (int i; i < numberOfOperations; i++){
+            if (symbols[i] == '/'){
+                BIDMASOrder[counter] = '/';
+                counter++;
+            }
+        }
+        for (int i; i < numberOfOperations; i++){
+            if (symbols[i] == '+'){
+                BIDMASOrder[counter] = '+';
+                counter++;
+            }
+        }
+        for (int i; i < numberOfOperations; i++){
+            if (symbols[i] == '-'){
+                BIDMASOrder[counter] = '-';
+                counter++;
+            }
+        }
 
-        //[23, 4, 13]
-        //[23, 17, ?]       
+        
+        double newNumber;
+        int tempNumber2;
+        int iterations;
+        for (int i; i < numberOfOperations; i++){
+            if (BIDMASOrder[i] == '*'){
+                for(int j; j < numberOfOperations; j++){
+                    if(numberArray[j] == '*'){
+                        if (iterations == 0){
+                            newNumber = multiply(numberArray[j], numberArray[j+1]);
+                            iterations++;
+                        }
+                        else{
+                            newNumber = multiply(newNumber, numberArray[j]);
+                        }
+                    }  
+                }
+            }
+            if (BIDMASOrder[i] == '/'){
+                for(int j; j < numberOfOperations; j++){
+                    if(numberArray[j] == '/'){
+                        if (iterations == 0){
+                            newNumber = divide(numberArray[j], numberArray[j+1]);
+                            iterations++;
+                        }
+                        else{
+                            newNumber = divide(newNumber, numberArray[j]);
+                        }
+                    }
+                }
+            }
+            if (BIDMASOrder[i] == '+'){
+                for(int j; j < numberOfOperations; j++){
+                    if(numberArray[j] == '+'){
+                        if (iterations == 0){
+                            newNumber = add(numberArray[j], numberArray[j+1]);
+                            iterations++;
+                        }
+                        else{
+                            newNumber = add(newNumber, numberArray[j]);
+                        }
+                    }
+                }
+            }
+            if (BIDMASOrder[i] == '-'){
+                for(int j; j < numberOfOperations; j++){
+                    if(numberArray[j] == '-'){
+                        if (iterations == 0){
+                            newNumber = subtract(numberArray[j], numberArray[j+1]);
+                            iterations++;
+                        }
+                        else{
+                            newNumber = subtract(newNumber, numberArray[j]);
+                        }
+                    }
+                }
+            }
+        }
+
+        cout << newNumber;    
     }
     return 0;
 }
