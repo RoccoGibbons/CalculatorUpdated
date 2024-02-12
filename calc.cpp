@@ -1,24 +1,25 @@
 #include <iostream>
 #include <math.h>
 #include <string.h>
+#include <string>
 #include <algorithm>
 #include <tuple>
 using namespace std;
 
 //Operation Functions
-double add(double x, double y){
+int add(int x, int y){
     return x + y;
 }
 
-double subtract(double x, double y){
+int subtract(int x, int y){
     return x - y;
 }
 
-double multiply(double x, double y){
+int multiply(int x, int y){
     return x * y;
 }
 
-double divide(double x, double y){
+int divide(int x, int y){
     return x / y;
 }
 
@@ -41,18 +42,19 @@ int main(){
         int length;
         length = calculation.length();
 
-        char array[length];
-        array[length] = '\0';
+        char *parray = new char[length];
+        parray[length] = '\0';
 
         //Moves string calculation into an array of characters
         for (int i = 0; i < length; i++){
-            array[i] = calculation[i];
+            parray[i] = calculation[i];
         }
 
         int numberOfOperations = countOperations(calculation);
         int numberOfNumbers = numberOfOperations + 1;
 
-        int numberArray[numberOfNumbers];
+        int *pnumberArray = new int[numberOfNumbers];
+
 
         //Moves all the numbers in the character array into a separate array 
         int k = 0;
@@ -60,124 +62,148 @@ int main(){
             bool boolean = true;
             string tempNumber;
             while (boolean == true){
-                if (isdigit(array[k]) == 1){
-                    tempNumber += array[k];
+                if (isdigit(parray[k]) == 1){
+                    tempNumber += parray[k];
                     k++;
                 }
                 else{
                     k++;
                     boolean = false;
-                    numberArray[i] = stoi(tempNumber);
+                    pnumberArray[i] = stoi(tempNumber);
                     tempNumber = "";
                 }
             }
         }       
-
-        char symbols[numberOfOperations];
-        symbols[numberOfOperations] = '\0';
+        
+        char *psymbols = new char[numberOfOperations];
+        psymbols[numberOfOperations] = '\0';
 
         //Stores all operatives into their own array
         int j = 0;
         for (int i = 0; i < length; i++){
-            if (array[i] == '*'){
-                symbols[j] = '*';
+            if (parray[i] == '*'){
+                psymbols[j] = '*';
+                // cout << "test (*)";
+                // cout << psymbols[j];
                 j++;
             }
-            else if (array[i] == '/'){
-                symbols[j] = '/';
+            else if (parray[i] == '/'){
+                psymbols[j] = '/';
+                // cout << "test (/)";
+                // cout << psymbols[j];
                 j++;
             }
-            else if (array[i] == '+'){
-                symbols[j] = '+';
+            else if (parray[i] == '+'){
+                psymbols[j] = '+';
+                // cout << "test (+)";
+                // cout << psymbols[j];
                 j++;
             }
-            else if (array[i] == '-'){
-                symbols[j] = '-';
+            else if (parray[i] == '-'){
+                psymbols[j] = '-';
+                // cout << "test (-)";
+                // cout << psymbols[j];
                 j++;
             }
         }
-        
-        char BIDMASOrder[numberOfOperations];
+
+        char *pBIDMASOrder = new char[numberOfOperations];
         int counter = 0;
 
         //To put it in bidmas order, ik this is horrible and not good layout at all but it works for the moment - to make nicer later
-        for (int i; i < numberOfOperations; i++){
-            if (symbols[i] == '*'){
-                BIDMASOrder[counter] = '*';
+        for (int i = 0; i < numberOfOperations; i++){
+            if (psymbols[i] == '*'){
+                pBIDMASOrder[counter] = '*';
                 counter++;
             }
         }
-        for (int i; i < numberOfOperations; i++){
-            if (symbols[i] == '/'){
-                BIDMASOrder[counter] = '/';
+        for (int i = 0; i < numberOfOperations; i++){
+            if (psymbols[i] == '/'){
+                pBIDMASOrder[counter] = '/';
                 counter++;
             }
         }
-        for (int i; i < numberOfOperations; i++){
-            if (symbols[i] == '+'){
-                BIDMASOrder[counter] = '+';
+        for (int i = 0; i < numberOfOperations; i++){
+            if (psymbols[i] == '+'){
+                pBIDMASOrder[counter] = '+';
                 counter++;
             }
         }
-        for (int i; i < numberOfOperations; i++){
-            if (symbols[i] == '-'){
-                BIDMASOrder[counter] = '-';
+        for (int i = 0; i < numberOfOperations; i++){
+            if (psymbols[i] == '-'){
+                pBIDMASOrder[counter] = '-';
                 counter++;
             }
         }
 
-        
-        double newNumber;
+        for (int i = 0; i < numberOfOperations; i++){
+            cout << pBIDMASOrder[i] << " ";
+        }
+        cout << '\n';
+        for (int i = 0; i < numberOfNumbers; i++){
+            cout << pnumberArray[i] << " ";
+        }
+
+        //the problem is below here, all above is working fine
+        int newNumber;
         int iterations;
         for (int i; i < numberOfOperations; i++){
-            if (BIDMASOrder[i] == '*'){
+            if (pBIDMASOrder[i] == '*'){
                 for(int j; j < numberOfOperations; j++){
-                    if(numberArray[j] == '*'){
+                    if(pnumberArray[j] == '*'){
                         if (iterations == 0){
-                            newNumber = multiply(numberArray[j], numberArray[j+1]);
+                            newNumber = multiply(pnumberArray[j], pnumberArray[j+1]);
+                            cout << newNumber << '\n';
                             iterations++;
                         }
                         else{
-                            newNumber = multiply(newNumber, numberArray[j]);
+                            newNumber = multiply(newNumber, pnumberArray[j]);
+                            cout << newNumber << '\n';
                         }
                     }  
                 }
             }
-            if (BIDMASOrder[i] == '/'){
+            if (pBIDMASOrder[i] == '/'){
                 for(int j; j < numberOfOperations; j++){
-                    if(numberArray[j] == '/'){
+                    if(pnumberArray[j] == '/'){
                         if (iterations == 0){
-                            newNumber = divide(numberArray[j], numberArray[j+1]);
+                            newNumber = divide(pnumberArray[j], pnumberArray[j+1]);
+                            cout << newNumber << '\n';
                             iterations++;
                         }
                         else{
-                            newNumber = divide(newNumber, numberArray[j]);
+                            newNumber = divide(newNumber, pnumberArray[j]);
+                            cout << newNumber << '\n';
                         }
                     }
                 }
             }
-            if (BIDMASOrder[i] == '+'){
+            if (pBIDMASOrder[i] == '+'){
                 for(int j; j < numberOfOperations; j++){
-                    if(numberArray[j] == '+'){
+                    if(pnumberArray[j] == '+'){
                         if (iterations == 0){
-                            newNumber = add(numberArray[j], numberArray[j+1]);
+                            newNumber = add(pnumberArray[j], pnumberArray[j+1]);
+                            cout << newNumber << '\n';
                             iterations++;
                         }
                         else{
-                            newNumber = add(newNumber, numberArray[j]);
+                            newNumber = add(newNumber, pnumberArray[j]);
+                            cout << newNumber << '\n';
                         }
                     }
                 }
             }
-            if (BIDMASOrder[i] == '-'){
+            if (pBIDMASOrder[i] == '-'){
                 for(int j; j < numberOfOperations; j++){
-                    if(numberArray[j] == '-'){
+                    if(pnumberArray[j] == '-'){
                         if (iterations == 0){
-                            newNumber = subtract(numberArray[j], numberArray[j+1]);
+                            newNumber = subtract(pnumberArray[j], pnumberArray[j+1]);
+                            cout << newNumber << '\n';
                             iterations++;
                         }
                         else{
-                            newNumber = subtract(newNumber, numberArray[j]);
+                            newNumber = subtract(newNumber, pnumberArray[j]);
+                            cout << newNumber << '\n';
                         }
                     }
                 }
