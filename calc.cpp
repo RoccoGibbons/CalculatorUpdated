@@ -142,75 +142,7 @@ int main(){
         cout << '\n';
         for (int i = 0; i < numberOfNumbers; i++){
             cout << pnumberArray[i] << " ";
-        }
-
-        //the problem is below here, all above is working fine
-        int newNumber;
-        int iterations;
-        for (int i; i < numberOfOperations; i++){
-            if (pBIDMASOrder[i] == '*'){
-                for(int j; j < numberOfOperations; j++){
-                    if(pnumberArray[j] == '*'){
-                        if (iterations == 0){
-                            newNumber = multiply(pnumberArray[j], pnumberArray[j+1]);
-                            cout << newNumber << '\n';
-                            iterations++;
-                        }
-                        else{
-                            newNumber = multiply(newNumber, pnumberArray[j]);
-                            cout << newNumber << '\n';
-                        }
-                    }  
-                }
-            }
-            if (pBIDMASOrder[i] == '/'){
-                for(int j; j < numberOfOperations; j++){
-                    if(pnumberArray[j] == '/'){
-                        if (iterations == 0){
-                            newNumber = divide(pnumberArray[j], pnumberArray[j+1]);
-                            cout << newNumber << '\n';
-                            iterations++;
-                        }
-                        else{
-                            newNumber = divide(newNumber, pnumberArray[j]);
-                            cout << newNumber << '\n';
-                        }
-                    }
-                }
-            }
-            if (pBIDMASOrder[i] == '+'){
-                for(int j; j < numberOfOperations; j++){
-                    if(pnumberArray[j] == '+'){
-                        if (iterations == 0){
-                            newNumber = add(pnumberArray[j], pnumberArray[j+1]);
-                            cout << newNumber << '\n';
-                            iterations++;
-                        }
-                        else{
-                            newNumber = add(newNumber, pnumberArray[j]);
-                            cout << newNumber << '\n';
-                        }
-                    }
-                }
-            }
-            if (pBIDMASOrder[i] == '-'){
-                for(int j; j < numberOfOperations; j++){
-                    if(pnumberArray[j] == '-'){
-                        if (iterations == 0){
-                            newNumber = subtract(pnumberArray[j], pnumberArray[j+1]);
-                            cout << newNumber << '\n';
-                            iterations++;
-                        }
-                        else{
-                            newNumber = subtract(newNumber, pnumberArray[j]);
-                            cout << newNumber << '\n';
-                        }
-                    }
-                }
-            }
-        }
-
-        cout << newNumber;    
+        }  
     }
     return 0;
 }
