@@ -23,6 +23,8 @@ int divide(int x, int y){
     return x / y;
 }
 
+//A subroutine that counts the number of symbols in the equation, this allows us to find how many times we need to run through the
+//Calculation to combine all the numbers
 int countOperations(string calculation){
     int numberOfOperations;
     numberOfOperations = std::count(calculation.begin(), calculation.end(), '+');
@@ -83,26 +85,18 @@ int main(){
         for (int i = 0; i < length; i++){
             if (parray[i] == '*'){
                 psymbols[j] = '*';
-                // cout << "test (*)";
-                // cout << psymbols[j];
                 j++;
             }
             else if (parray[i] == '/'){
                 psymbols[j] = '/';
-                // cout << "test (/)";
-                // cout << psymbols[j];
                 j++;
             }
             else if (parray[i] == '+'){
                 psymbols[j] = '+';
-                // cout << "test (+)";
-                // cout << psymbols[j];
                 j++;
             }
             else if (parray[i] == '-'){
                 psymbols[j] = '-';
-                // cout << "test (-)";
-                // cout << psymbols[j];
                 j++;
             }
         }
@@ -111,6 +105,7 @@ int main(){
         int counter = 0;
 
         //To put it in bidmas order, ik this is horrible and not good layout at all but it works for the moment - to make nicer later
+        //If it aint broken, don't fix it
         for (int i = 0; i < numberOfOperations; i++){
             if (psymbols[i] == '*'){
                 pBIDMASOrder[counter] = '*';
@@ -136,13 +131,37 @@ int main(){
             }
         }
 
-        for (int i = 0; i < numberOfOperations; i++){
-            cout << pBIDMASOrder[i] << " ";
+        //Ok, so what have we got so far?
+        //We have an array containing all of our numbers inputted
+        //We have 2 arrays for symbols -> one with them in the order inputted and the other in the order of BIDMAS
+
+        //What do we need to do?
+        //We need to take the ordered symbols and numbers and operate our calculation on them
+
+        //How?
+        //New temporary arrays?
+        //Pointers?
+        //Lets give it a go
+
+
+        //This will perform the calculations hopefully
+        int var = 0;
+        for(int i = 0; i < numberOfOperations; i++){
+            if(pBIDMASOrder[var] == '+'){
+                //add
+            }
+            else if (pBIDMASOrder[var] == '-'){
+                //subtract
+            }
+            else if (pBIDMASOrder[var] == '*'){
+                //multiply
+            }
+            else if (pBIDMASOrder[var] == '/'){
+                //divide
+            }
+            var++;
         }
-        cout << '\n';
-        for (int i = 0; i < numberOfNumbers; i++){
-            cout << pnumberArray[i] << " ";
-        }  
+
     }
     return 0;
 }
