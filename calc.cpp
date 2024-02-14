@@ -131,36 +131,75 @@ int main(){
             }
         }
 
-        //Ok, so what have we got so far?
-        //We have an array containing all of our numbers inputted
-        //We have 2 arrays for symbols -> one with them in the order inputted and the other in the order of BIDMAS
-
-        //What do we need to do?
-        //We need to take the ordered symbols and numbers and operate our calculation on them
-
-        //How?
-        //New temporary arrays?
-        //Pointers?
-        //Lets give it a go
-
-
         //This will perform the calculations hopefully
-        int var = 0;
         for(int i = 0; i < numberOfOperations; i++){
-            if(pBIDMASOrder[var] == '+'){
+            int tempIndex;
+            if(pBIDMASOrder[i] == '+'){
                 //add
+                for(int j = 0; j < numberOfOperations; j++){
+                    if(psymbols[j] == '+'){
+                        tempIndex = j; //where + is in the normal symbols array
+                        break;
+                    }
+                }
+                pnumberArray[tempIndex] = pnumberArray[tempIndex] + pnumberArray[tempIndex + 1];
+                for(int k = tempIndex+1; k < numberOfNumbers - 1; k++){
+                    pnumberArray[k] = pnumberArray[k+1];
+                }
+                for(int l = tempIndex; l < numberOfOperations - 1; l++){
+                    psymbols[l] = psymbols[l+1];
+                }
             }
-            else if (pBIDMASOrder[var] == '-'){
+            else if (pBIDMASOrder[i] == '-'){
                 //subtract
+                for(int j = 0; j < numberOfOperations; j++){
+                    if(psymbols[j] == '-'){
+                        tempIndex = j;  
+                        break;
+                    }
+                }
+                pnumberArray[tempIndex] = pnumberArray[tempIndex] - pnumberArray[tempIndex + 1];
+                for(int k = tempIndex+1; k < numberOfNumbers - 1; k++){
+                    pnumberArray[k] = pnumberArray[k+1];
+                }                
+                for(int l = tempIndex; l < numberOfOperations - 1; l++){
+                    psymbols[l] = psymbols[l+1];
+                }
             }
-            else if (pBIDMASOrder[var] == '*'){
+            else if (pBIDMASOrder[i] == '*'){
                 //multiply
+                for(int j = 0; j < numberOfOperations; j++){
+                    if(psymbols[j] == '*'){
+                        tempIndex = j; 
+                        break;
+                    }
+                }
+                pnumberArray[tempIndex] = pnumberArray[tempIndex] * pnumberArray[tempIndex + 1];
+                for(int k = tempIndex+1; k < numberOfNumbers - 1; k++){
+                    pnumberArray[k] = pnumberArray[k+1];
+                }           
+                for(int l = tempIndex; l < numberOfOperations - 1; l++){
+                    psymbols[l] = psymbols[l+1];
+                }     
             }
-            else if (pBIDMASOrder[var] == '/'){
+            else if (pBIDMASOrder[i] == '/'){
                 //divide
+                for(int j = 0; j < numberOfOperations; j++){
+                    if(psymbols[j] == '/'){
+                        tempIndex = j; 
+                        break;
+                    }
+                }
+                pnumberArray[tempIndex] = pnumberArray[tempIndex] / pnumberArray[tempIndex + 1];
+                for(int k = tempIndex+1; k < numberOfNumbers - 1; k++){
+                    pnumberArray[k] = pnumberArray[k+1];
+                }                
+                for(int l = tempIndex; l < numberOfOperations - 1; l++){
+                    psymbols[l] = psymbols[l+1];
+                }
             }
-            var++;
         }
+        cout << pnumberArray[0];
 
     }
     return 0;
