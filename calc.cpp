@@ -6,23 +6,6 @@
 #include <tuple>
 using namespace std;
 
-//Operation Functions
-int add(int x, int y){
-    return x + y;
-}
-
-int subtract(int x, int y){
-    return x - y;
-}
-
-int multiply(int x, int y){
-    return x * y;
-}
-
-int divide(int x, int y){
-    return x / y;
-}
-
 //A subroutine that counts the number of symbols in the equation, this allows us to find how many times we need to run through the
 //Calculation to combine all the numbers
 int countOperations(string calculation){
@@ -55,7 +38,7 @@ int main(){
         int numberOfOperations = countOperations(calculation);
         int numberOfNumbers = numberOfOperations + 1;
 
-        int *pnumberArray = new int[numberOfNumbers];
+        double *pnumberArray = new double[numberOfNumbers];
 
 
         //Moves all the numbers in the character array into a separate array 
@@ -64,7 +47,7 @@ int main(){
             bool boolean = true;
             string tempNumber;
             while (boolean == true){
-                if (isdigit(parray[k]) == 1){
+                if ((isdigit(parray[k]) == 1) | (parray[k] == '.')){
                     tempNumber += parray[k];
                     k++;
                 }
