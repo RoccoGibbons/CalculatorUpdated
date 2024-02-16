@@ -63,8 +63,9 @@ int main(){
         char *psymbols = new char[numberOfOperations];
         psymbols[numberOfOperations] = '\0';
 
-        //Stores all operatives into their own array
+        // Stores all operatives into their own array
         int j = 0;
+        int numOfBrackets = 0;
         for (int i = 0; i < length; i++){
             if (parray[i] == '*'){
                 psymbols[j] = '*';
@@ -80,6 +81,15 @@ int main(){
             }
             else if (parray[i] == '-'){
                 psymbols[j] = '-';
+                j++;
+            }
+            else if (parray[i] == '('){
+                psymbols[j] = '(';
+                numOfBrackets++;
+                j++;
+            }
+            else if (parray[i] == ')'){
+                psymbols[j] = ')';
                 j++;
             }
         }
@@ -114,9 +124,11 @@ int main(){
             }
         }
 
+
+
         //This will perform the calculations hopefully
         for(int i = 0; i < numberOfOperations; i++){
-            int tempIndex;
+            int tempIndex; //pass thru function
             if(pBIDMASOrder[i] == '+'){
                 //add
                 for(int j = 0; j < numberOfOperations; j++){
@@ -129,7 +141,7 @@ int main(){
                 for(int k = tempIndex+1; k < numberOfNumbers - 1; k++){
                     pnumberArray[k] = pnumberArray[k+1];
                 }
-                for(int l = tempIndex; l < numberOfOperations - 1; l++){
+                for(int l = tempIndex; l < numberOfOperations - 1; l++){        
                     psymbols[l] = psymbols[l+1];
                 }
             }
@@ -183,6 +195,12 @@ int main(){
             }
         }
         cout << pnumberArray[0];
+
+        
+        delete[] parray;
+        delete[] pnumberArray;
+        delete[] psymbols;
+        delete[] pBIDMASOrder;
 
     }
     return 0;
