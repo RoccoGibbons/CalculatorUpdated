@@ -92,8 +92,7 @@ int main(){
             }
         }
 
-        //To put it in bidmas order, ik this is horrible and not good layout at all but it works for the moment - to make nicer later
-        //If it aint broken, don't fix it
+        //To put it in bidmas order
         int counter = 0;
         bidmasArray(numberOfOperations, '*', counter, psymbols, pBIDMASOrder);
         bidmasArray(numberOfOperations, '/', counter, psymbols, pBIDMASOrder);
