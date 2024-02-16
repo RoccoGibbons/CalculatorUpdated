@@ -1,9 +1,7 @@
 #include <iostream>
 #include <math.h>
-#include <string.h>
 #include <string>
 #include <algorithm>
-#include <tuple>
 using namespace std;
 
 //A subroutine that counts the number of symbols in the equation, this allows us to find how many times we need to run through the
@@ -196,7 +194,7 @@ int main(){
         }
         cout << pnumberArray[0];
 
-        
+
         delete[] parray;
         delete[] pnumberArray;
         delete[] psymbols;
