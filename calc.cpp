@@ -4,8 +4,6 @@
 #include <algorithm>
 using namespace std;
 
-//A subroutine that counts the number of symbols in the equation, this allows us to find how many times we need to run through the
-//Calculation to combine all the numbers
 int countOperations(string calculation){
     int numberOfOperations;
     numberOfOperations = std::count(calculation.begin(), calculation.end(), '+');
@@ -15,15 +13,53 @@ int countOperations(string calculation){
     return numberOfOperations;
 }
 
+double numberArray(char parray[], int &k){
+    string tempNumber;
+    while (true){
+        if ((isdigit(parray[k]) == 1) | (parray[k] == '.')){
+            tempNumber += parray[k];
+            k++;
+        }
+        else{
+            k++;
+            return stoi(tempNumber);
+        }
+    }
+}
+
+char symbolArray(char parray[], int i){
+    if (parray[i] == '*'){
+        return '*'; 
+    }
+    else if (parray[i] == '/'){
+        return '/';
+    }
+    else if (parray[i] == '+'){
+        return '+';
+    }
+    else if (parray[i] == '-'){
+        return '-';
+    }
+    else{
+        return '\0';
+    }
+}
+
+void bidmasArray(int numberOfOperations, char symbol, int &counter, char psymbols[], char pBIDMASOrder[]){
+    for (int i = 0; i < numberOfOperations; i++){
+        if (psymbols[i] == symbol){
+            pBIDMASOrder[counter] = symbol;
+            counter++; 
+        }
+    }
+}
+
 int main(){
     while (true){
         cout << "\nEnter your calculation: ";       
-
         string calculation;
         cin >> calculation;
-
-        int length;
-        length = calculation.length();
+        int length = calculation.length();
 
         char *parray = new char[length];
         parray[length] = '\0';
@@ -37,92 +73,32 @@ int main(){
         int numberOfNumbers = numberOfOperations + 1;
 
         double *pnumberArray = new double[numberOfNumbers];
-
-
-        //Moves all the numbers in the character array into a separate array 
-        int k = 0;
-        for (int i = 0; i < numberOfNumbers; i++){
-            bool boolean = true;
-            string tempNumber;
-            while (boolean == true){
-                if ((isdigit(parray[k]) == 1) | (parray[k] == '.')){
-                    tempNumber += parray[k];
-                    k++;
-                }
-                else{
-                    k++;
-                    boolean = false;
-                    pnumberArray[i] = stoi(tempNumber);
-                    tempNumber = "";
-                }
-            }
-        }       
-        
         char *psymbols = new char[numberOfOperations];
         psymbols[numberOfOperations] = '\0';
+        char *pBIDMASOrder = new char[numberOfOperations];
+        
+        //Moves all the numbers in the character array into a separate array 
+        int k = 0;
+        for(int i = 0; i < numberOfNumbers; i++){
+            pnumberArray[i] = numberArray(parray, k);
+        }
 
-        // Stores all operatives into their own array
+        // Stores all symbols into their own array
         int j = 0;
-        int numOfBrackets = 0;
         for (int i = 0; i < length; i++){
-            if (parray[i] == '*'){
-                psymbols[j] = '*';
-                j++;
-            }
-            else if (parray[i] == '/'){
-                psymbols[j] = '/';
-                j++;
-            }
-            else if (parray[i] == '+'){
-                psymbols[j] = '+';
-                j++;
-            }
-            else if (parray[i] == '-'){
-                psymbols[j] = '-';
-                j++;
-            }
-            else if (parray[i] == '('){
-                psymbols[j] = '(';
-                numOfBrackets++;
-                j++;
-            }
-            else if (parray[i] == ')'){
-                psymbols[j] = ')';
+            if (symbolArray(parray, i) != '\0'){
+                psymbols[j] = symbolArray(parray, i);
                 j++;
             }
         }
-
-        char *pBIDMASOrder = new char[numberOfOperations];
-        int counter = 0;
 
         //To put it in bidmas order, ik this is horrible and not good layout at all but it works for the moment - to make nicer later
         //If it aint broken, don't fix it
-        for (int i = 0; i < numberOfOperations; i++){
-            if (psymbols[i] == '*'){
-                pBIDMASOrder[counter] = '*';
-                counter++;
-            }
-        }
-        for (int i = 0; i < numberOfOperations; i++){
-            if (psymbols[i] == '/'){
-                pBIDMASOrder[counter] = '/';
-                counter++;
-            }
-        }
-        for (int i = 0; i < numberOfOperations; i++){
-            if (psymbols[i] == '+'){
-                pBIDMASOrder[counter] = '+';
-                counter++;
-            }
-        }
-        for (int i = 0; i < numberOfOperations; i++){
-            if (psymbols[i] == '-'){
-                pBIDMASOrder[counter] = '-';
-                counter++;
-            }
-        }
-
-
+        int counter = 0;
+        bidmasArray(numberOfOperations, '*', counter, psymbols, pBIDMASOrder);
+        bidmasArray(numberOfOperations, '/', counter, psymbols, pBIDMASOrder);
+        bidmasArray(numberOfOperations, '+', counter, psymbols, pBIDMASOrder);
+        bidmasArray(numberOfOperations, '-', counter, psymbols, pBIDMASOrder);
 
         //This will perform the calculations hopefully
         for(int i = 0; i < numberOfOperations; i++){
@@ -193,7 +169,6 @@ int main(){
             }
         }
         cout << pnumberArray[0];
-
 
         delete[] parray;
         delete[] pnumberArray;
